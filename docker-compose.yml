@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./ops/docker/Dockerfile
+    container_name: app
+    env_file:
+      - .env
+    volumes:
+      - .:/var/www/app
+    networks:
+      - app
+    depends_on:
+      - database
+
+  web:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - .:/var/www/app
+      - ./ops/nginx/nginx-conf.d:/etc/nginx/conf.d
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - app
+    depends_on:
+      - app
+
+  database:
+    image: postgres:13-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ChangeMe}
+      POSTGRES_USER: ${POSTGRES_USER:-symfony}
+    restart: unless-stopped
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+    # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+    # - ./docker/db/data:/var/lib/postgresql/data:rw
+    networks:
+      - app
+
+volumes:
+  db-data:
+
+networks:
+  app:
+    driver: bridge
