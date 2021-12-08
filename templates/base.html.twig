@@ -2,18 +2,31 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <title>{% block title %}pron1mo Blog{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <script src="https://cdn-tailwindcss.vercel.app/"></script>
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="text-gray-800">
+        <header class="flex justify-center w-full h-24 bg-indigo-800 text-gray-100">
+            <nav class="flex justify-between items-center h-full container">
+                <div class="flex flex-row items-center space-x-4">
+                    <a href="{{ path('homepage') }}" class="px-4 py-2 text-xl font-bold">pron1mo blog</a>
+                    <a href="{{ path('homepage') }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">Главная</a>
+                    <a href="#" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">Об авторе</a>
+                </div>
+                {% if not app.user %}
+                    <a href="{{ path('app_login') }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">
+                        Авторизация
+                    </a>
+                {% else %}
+                    <button class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">
+                        Привет, <span class="text-green-300">{{ app.user.username }}</span>
+                    </button>
+                {% endif %}
+            </nav>
+        </header>
+        <div class="container mx-auto mt-8">
+            {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
