@@ -1,0 +1,35 @@
+<div class="flex flex-row h-20 items-center">
+    <div class="w-1/3">
+        Showing {{ navigator.limit * navigator.page - navigator.limit + 1 }} to
+        {% if navigator.limit * navigator.page > navigator.total %}
+            {{ navigator.total }}
+        {% else %}
+            {{ navigator.limit * navigator.page  }}
+        {% endif %}
+        of {{ navigator.total }} entries</div>
+    <div class="w-2/3 flex justify-end">
+        <div class="flex flex-row">
+            {% if navigator.page > 1 %}
+                <a href="{{ path(route, {page: navigator.page - 1}) }}" class="px-4 py-2 bg-indigo-800 hover:bg-indigo-700 transition border-2 border-indigo-800 rounded-l-lg text-white">Previous</a>
+            {% else %}
+                <span class="px-4 py-2 border-2 border-indigo-800 bg-gray-200 text-gray-800 rounded-l-lg cursor-default">Previous</span>
+            {% endif %}
+            {% for i in range(1, navigator.pages) %}
+                {% if i == navigator.page %}
+                    <span class="px-4 py-2 bg-indigo-800 border-2 border-indigo-800 text-white cursor-default">
+                        {{ i }}
+                    </span>
+                {% else %}
+                    <a href="{{ path(route, {page: i}) }}" class="px-4 py-2 border-2 border-indigo-800 text-indigo-800 hover:bg-indigo-200 transition">
+                        {{ i }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+            {% if navigator.page * navigator.limit < navigator.total %}
+                <a href="{{ path(route, {page: navigator.page + 1}) }}" class="px-4 py-2 bg-indigo-800 hover:bg-indigo-700 transition border-2 border-indigo-800 rounded-r-lg text-white">Next</a>
+            {% else %}
+                <span class="px-4 py-2 border-2 border-indigo-800 bg-gray-200 text-gray-800 rounded-r-lg cursor-default">Next</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

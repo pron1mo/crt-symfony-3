@@ -1,0 +1,27 @@
+<header class="flex justify-center w-full h-24 bg-indigo-800 text-gray-100">
+    <nav class="flex justify-between items-center h-full container">
+        <div class="flex flex-row items-center space-x-4">
+            <a href="{{ path('homepage') }}" class="px-4 py-2 text-xl font-bold">pron1mo blog</a>
+            <a href="{{ path('homepage') }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">Главная</a>
+            {% for link in links %}
+            <a href="{{ path('static_page', {id: link.id}) }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">{{ link.title }}</a>
+            {% endfor %}
+        </div>
+        <div>
+            {% if app.user and is_granted('ROLE_MODERATOR') %}
+                <a href="{{ path('admin') }}" class="mr-4 px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">
+                    Админ-панель
+                </a>
+            {% endif %}
+            {% if not app.user %}
+                <a href="{{ path('app_login') }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition">
+                    Авторизация
+                </a>
+            {% else %}
+                <a href="{{ path('app_logout') }}" class="px-4 py-2 rounded-xl bg-indigo-800 hover:bg-indigo-700 tracking-tight transition" title="Выйти">
+                    Привет, <span class="text-green-300">{{ app.user.username }}</span>
+                </a>
+            {% endif %}
+        </div>
+    </nav>
+</header>
