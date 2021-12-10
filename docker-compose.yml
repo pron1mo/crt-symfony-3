@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: ./ops/docker/Dockerfile
+      args:
+        PUID: ${PUID}
+        PGID: ${PGID}
     container_name: app
     env_file:
       - .env
@@ -38,6 +41,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-symfony}
     restart: unless-stopped
     volumes:
+      - ./ops/posgre/init-db.sql:/docker-entrypoint-initdb.d/init.sql
       - ./ops/postgre/data:/var/lib/postgresql/data:rw
     ports:
       - "5432:5432"

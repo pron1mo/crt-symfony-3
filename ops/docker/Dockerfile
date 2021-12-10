@@ -52,7 +52,7 @@ ENV PGID ${PGID}
 
 
 RUN usermod -u ${PUID} www-data && groupmod -g ${PGID} www-data
-#RUN mkdir -p /var/www/app && chown -R www-data:www-data /var/www/app
+RUN mkdir -p /var/www/app && chown -R www-data:www-data /var/www/app
 
 
 USER ${PUID}:${PGID}
