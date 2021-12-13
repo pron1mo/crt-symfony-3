@@ -27,7 +27,7 @@
             </div>
         </div>
         {% endfor %}
-        {% if navigator.total > navigator.limit %}
+        {% if navigator is defined and navigator.total > navigator.limit %}
             {{ include('components/navigator.html.twig', {route: 'article_page'}) }}
         {% endif %}
     </div>
